@@ -17,5 +17,8 @@ func set_label(new_label):
 	get_node('VBoxContainer/Label').set_text(label)
 	update()
 
+func set_contents( new_contents ):
+	input_node.text = new_contents
+
 func _on_TextEdit_text_changed():
 	contents = input_node.text
