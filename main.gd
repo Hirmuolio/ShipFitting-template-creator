@@ -316,6 +316,13 @@ func parse_input():
 		var line = input_node.get_line ( index )
 		if line.length() == 0:
 			continue
+		if line[0] == "[":
+			# Replace lower case with uppercases. Easier to support only one way of doing this
+			line = line.replace ( "[empty high slot]", "[Empty High Slot]" )
+			line = line.replace ( "[empty med slot]", "[Empty Med Slot]" )
+			line = line.replace ( "[empty low slot]", "[Empty Low Slot]" )
+			line = line.replace ( "[empty rig slot]", "[Empty Rig Slot]" )
+			line = line.replace ( "[empty subsystem slot]", "[Empty Subsystem Slot]" )
 		if line.find( "," ) != -1:
 			# Module with charges loaded
 			var string_array = line.split( "," )
