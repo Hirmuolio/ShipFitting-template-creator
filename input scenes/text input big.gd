@@ -22,5 +22,11 @@ func set_contents( new_contents ):
 	input_node.text = new_contents
 	update()
 
+func get_line_count():
+	return input_node.get_line_count()
+
+func get_line ( index ):
+	return input_node.get_line ( index )
+
 func _on_TextEdit_text_changed():
 	contents = input_node.text

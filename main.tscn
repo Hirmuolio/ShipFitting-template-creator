@@ -43,7 +43,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 300.0
 margin_bottom = 24.0
-label = "Name:"
+label = "Name (optional):"
 
 [node name="id" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 3 )]
 anchor_right = 0.0
@@ -101,18 +101,26 @@ margin_right = 300.0
 margin_bottom = 220.0
 label = "Show on TOC"
 
-[node name="notes" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 2 )]
+[node name="raw" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 224.0
 margin_right = 300.0
-margin_bottom = 406.0
+margin_bottom = 248.0
+label = "Include raw EFT data"
+
+[node name="notes" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 252.0
+margin_right = 300.0
+margin_bottom = 420.0
 label = "Notes:"
 
 [node name="skills" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 410.0
+margin_top = 424.0
 margin_right = 300.0
 margin_bottom = 592.0
 label = "Skills:"

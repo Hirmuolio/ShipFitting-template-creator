@@ -31,5 +31,8 @@ margin_left = 4.0
 margin_right = 1024.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+text = "0"
+items = [ "0", null, false, 0, null, "1", null, false, 1, null, "2", null, false, 2, null, "3", null, false, 3, null, "4", null, false, 4, null, "5", null, false, 5, null ]
+selected = 0
 
 [connection signal="item_selected" from="HBoxContainer/OptionButton" to="." method="_on_OptionButton_item_selected"]

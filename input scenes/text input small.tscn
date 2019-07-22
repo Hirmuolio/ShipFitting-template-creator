@@ -24,13 +24,13 @@ anchor_bottom = 1.0
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 margin_top = 5.0
-margin_right = 100.0
+margin_right = 120.0
 margin_bottom = 19.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 120, 0 )
 align = 2
 
 [node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
-margin_left = 104.0
+margin_left = 124.0
 margin_right = 1024.0
 margin_bottom = 24.0
 size_flags_horizontal = 3

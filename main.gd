@@ -7,11 +7,25 @@ var work_folder = "user://"
 #var work_folder = "/"
 
 onready var output_node = get_node( "HBoxContainer/VBoxContainer3/output" )
+onready var name_node = get_node( "HBoxContainer/VBoxContainer2/name" )
+onready var id_node = get_node( "HBoxContainer/VBoxContainer2/id" )
+onready var date_node = get_node( "HBoxContainer/VBoxContainer2/date" )
+onready var difficulty_node = get_node( "HBoxContainer/VBoxContainer2/difficulty" )
+onready var alpha_node = get_node( "HBoxContainer/VBoxContainer2/alpha" )
+onready var show_skills_node = get_node( "HBoxContainer/VBoxContainer2/show skills" )
+onready var show_note_node = get_node( "HBoxContainer/VBoxContainer2/show note" )
+onready var show_toc_node = get_node( "HBoxContainer/VBoxContainer2/show TOC" )
+onready var notes_node = get_node( "HBoxContainer/VBoxContainer2/notes" )
+onready var skills_node = get_node( "HBoxContainer/VBoxContainer2/skills" )
+onready var raw_node = get_node( "HBoxContainer/VBoxContainer2/raw" )
 
 
 func _ready():
 	module_cache = load_json(work_folder + "module_cache.json")
 	ship_cache = load_json(work_folder + "ship_cache.json")
+	
+	# Set some defaults
+	raw_node.set_state( true )
 	pass # Replace with function body.
 
 
@@ -105,8 +119,9 @@ func is_drone_slot( string ):
 	return false
 
 func has_count( string ):
-	if string.rfind( "x" ) != -1:
+	if string.rfind( " x" ) != -1:
 		var temp = string.split( " x" )
+		print( temp )
 		if temp[1].is_valid_integer():
 			return true
 	return false
@@ -122,6 +137,25 @@ func remove_count( string ):
 	else:
 		return string
 
+func convert_to_wiki( RichTextLabel_node ):
+	var output = ""
+	var linecount = RichTextLabel_node.get_line_count()
+	for index in range( linecount ):
+		var line = RichTextLabel_node.get_line ( index )
+		output += line + "<br>"
+	return output
+
+func convert_to_wiki_list( RichTextLabel_node ):
+	var output = ""
+	var linecount = RichTextLabel_node.get_line_count()
+	if linecount == 0:
+		return output
+	output = RichTextLabel_node.get_line ( 0 )
+	for index in range( 1, linecount ):
+		var line = RichTextLabel_node.get_line ( index )
+		output += "</li><li>" + line
+	return output
+
 func parse_input():
 	var eft_node = get_node( "HBoxContainer/VBoxContainer/input" ).get_node( "VBoxContainer/TextEdit" )
 	var esi_caller_scene = load( "res://esi calling/esi caller.tscn" )
@@ -132,8 +166,9 @@ func parse_input():
 	
 	# Get IDs for all the fitted modules
 	var item_names = []
-	for line in range( linecount ):
+	for line in range( 1, linecount ):
 		var string = eft_node.get_line ( line )
+		print( string )
 		if string.length() == 0 or string[0] == "[":
 			continue
 
@@ -180,7 +215,7 @@ func parse_input():
 					dogma_effects.append( effect["effect_id" ] )
 			if "dogma_attributes" in esi_response["body"]:
 				for effect in esi_response["body"]["dogma_attributes"]:
-					dogma_effects.append( effect["attribute_id" ] )
+					dogma_attributes.append( effect["attribute_id" ] )
 			
 			print( dogma_effects )
 			
@@ -190,6 +225,8 @@ func parse_input():
 				slot = "low"
 			elif 12 in dogma_effects:
 				slot = "high"
+			elif float(1366) in dogma_attributes:
+				slot = "subsystem"
 			elif float(1272) in dogma_attributes:
 				# Drone bandwidth
 				slot = "drone"
@@ -265,7 +302,6 @@ func parse_input():
 	var cargo_count = []
 	
 	#Prepare unfitted json
-	print( "low slots: ", ship_cache[ hull ]["low_slots"] )
 	for n in range( ship_cache[ hull ]["low_slots"] ):
 		low.append( "[Empty Low Slot]" )
 		low_charge.append( "" )
@@ -292,7 +328,7 @@ func parse_input():
 	for line in range( 1, linecount ):
 		var string = eft_node.get_line ( line )
 		
-		if string.length() == 0:
+		if string.length() == 0 or string[0] == "[":
 			continue
 		
 		var item_name = ""
@@ -317,8 +353,6 @@ func parse_input():
 				count = temp[1]
 			else:
 				item_name = string
-			
-		print( '"', item_name, '"' )
 		
 		if is_low_slot( item_name ):
 			low[ low_modules ] = item_name
@@ -361,7 +395,9 @@ func parse_input():
 	output += "{{ShipFitting\n"
 	output += "| ship=" + str(hull) + "\n"
 	output += "| shipTypeID="+ str(ship_cache[hull]["type_id"]) +  "\n"
-	output += "| fitName=" + fit_name + "\n| fitID=" + fit_name + "\n"
+	var export_name = fit_name if name_node.contents == "" else name_node.contents
+	var export_id = export_name if id_node.contents == "" else id_node.contents
+	output += "| fitName=" + export_name + "\n| fitID=" + export_id + "\n"
 	
 	# Add modules
 	for n in range( high.size() ):
@@ -378,7 +414,7 @@ func parse_input():
 	
 	for n in range( low.size() ):
 		var index = str( n + 1 )
-		output += "| low" + index + "name=" + high[n] + "\n"
+		output += "| low" + index + "name=" + low[n] + "\n"
 		if low[n] != "[Empty Low Slot]":
 			output += "| low" + index + "typeID=" + str( module_cache[low[n]]["type_id"] ) + "\n"
 	
@@ -386,6 +422,7 @@ func parse_input():
 		var index = str( n + 1 )
 		if rig[n] != "[Empty Rig Slot]":
 			output += "| rig" + index + "name=" + rig[n] + "\n"
+			output += "| rig" + index + "typeID=" + str( module_cache[rig[n]]["type_id"] ) + "\n"
 	
 	for n in range( drone.size() ):
 		var index = str( n + 1 )
@@ -397,15 +434,17 @@ func parse_input():
 		output += "| charge" + index + "name=" + cargo[n] + " x" +str(cargo_count[n]) + "\n"
 		output += "| charge" + index + "typeID=" + str( module_cache[cargo[n]]["type_id"] ) + "\n"
 	
-	# TODO connect to button options
-	output += "| skills=\n"
-	output += "| showSKILLS=N\n"
-	output += "| notes=\n"
-	output += "| showNOTES=N\n"
-	output += "| difficulty=1\n"
-	output += "| version=20161114\n"
-	output += "| showTOC=Y\n"
-	output += "| alphacanuse=N\n"
+	output += "| skills=" + convert_to_wiki_list( skills_node ) + "\n"
+	output += "| showSKILLS=" + ( "N\n" if show_skills_node.contents == false else "Y\n" )
+	output += "| notes=" + convert_to_wiki_list( notes_node ) + "\n"
+	output += "| showNOTES=" + ( "N\n" if show_note_node.contents == false else "Y\n" )
+	output += "| difficulty=" + difficulty_node.contents + "\n"
+	var version = str(OS.get_date()["year"]) + "." + str(OS.get_date()["month"]) + "." + str(OS.get_date()["day"]) if date_node.contents == "" else date_node.contents
+	output += "| version=" + version + "\n"
+	output += "| showTOC=" + ( "N\n" if show_toc_node.contents == false else "Y\n" )
+	output += "| alphacanuse=" + ( "N\n" if alpha_node.contents == false else "Y\n" )
+	if raw_node.contents == true:
+		output += "| eft fit = " + convert_to_wiki( eft_node )
 	output += "}}"
 	
 	output_node.set_contents( output )

@@ -8,6 +8,7 @@ export var label = "" setget set_label
 
 func _ready():
 	var difficulties = [0, 1, 2, 3, 4, 5]
+	input_node.clear()
 	for diff in difficulties:
 		input_node.add_item ( str(diff), diff )
 	pass # Replace with function body.
