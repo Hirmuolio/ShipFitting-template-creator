@@ -266,36 +266,7 @@ func check_input_esi_info( item_names, hull ):
 					"slot": slot
 					}
 	
-	# Find info on the hull
-	if not hull in ship_cache:
-		var esi_response = yield( esi_caller.get_item_ids( [ hull ] ), "completed" )
-		var ship_id = esi_response["body"]["inventory_types"][0]["id"]
-		esi_response = yield( esi_caller.get_item_info( ship_id ), "completed" )
-		
-		var dogma_attributes_dictionary = {}
-		for dic in esi_response["body"]["dogma_attributes"]:
-			dogma_attributes_dictionary[ dic["attribute_id"] ] = dic["value"]
-		
-		ship_cache[ hull ] = {
-			"type_id": esi_response["body"]["type_id"],
-			"high_slots":0,
-			"med_slots": 0,
-			"low_slots": 0,
-			"rig_slots": 0
-		}
-		
-		# I think ship says it has 0 slots but lets be sure and check if attribute exists
-		if float(12) in dogma_attributes_dictionary:
-			ship_cache[ hull ]["low_slots"] = dogma_attributes_dictionary[ float(12) ]
-		if float(13) in dogma_attributes_dictionary:
-			ship_cache[ hull ]["med_slots"] = dogma_attributes_dictionary[ float(13) ]
-		if float(14) in dogma_attributes_dictionary:
-			ship_cache[ hull ]["high_slots"] = dogma_attributes_dictionary[ float(14) ]
-		if float(1137) in dogma_attributes_dictionary:
-			ship_cache[ hull ]["rig_slots"] = dogma_attributes_dictionary[ float(1137) ]
-	
 	save_json(work_folder + "item_cache.json", item_cache)
-	save_json(work_folder + "ship_cache.json", ship_cache)
 	
 	print( "Item info fetching completed" )
 	esi_caller.queue_free()
@@ -387,7 +358,6 @@ func parse_input():
 	# Add basic info
 	output += "{{ShipFitting\n"
 	output += "| ship=" + str(hull) + "\n"
-	output += "| shipTypeID="+ str(ship_cache[hull]["type_id"]) +  "\n"
 	var export_name = fit_name if name_node.contents == "" else name_node.contents
 	var export_id = export_name if id_node.contents == "" else id_node.contents
 	output += "| fitName=" + export_name + "\n| fitID=" + export_id + "\n"
