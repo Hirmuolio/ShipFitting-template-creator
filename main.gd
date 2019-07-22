@@ -17,15 +17,11 @@ onready var show_note_node = get_node( "HBoxContainer/VBoxContainer2/show note" 
 onready var show_toc_node = get_node( "HBoxContainer/VBoxContainer2/show TOC" )
 onready var notes_node = get_node( "HBoxContainer/VBoxContainer2/notes" )
 onready var skills_node = get_node( "HBoxContainer/VBoxContainer2/skills" )
-onready var raw_node = get_node( "HBoxContainer/VBoxContainer2/raw" )
 
 
 func _ready():
 	module_cache = load_json(work_folder + "module_cache.json")
 	ship_cache = load_json(work_folder + "ship_cache.json")
-	
-	# Set some defaults
-	raw_node.set_state( true )
 	pass # Replace with function body.
 
 
@@ -225,8 +221,6 @@ func parse_input():
 				slot = "low"
 			elif 12 in dogma_effects:
 				slot = "high"
-			elif float(1366) in dogma_attributes:
-				slot = "subsystem"
 			elif float(1272) in dogma_attributes:
 				# Drone bandwidth
 				slot = "drone"
@@ -443,8 +437,7 @@ func parse_input():
 	output += "| version=" + version + "\n"
 	output += "| showTOC=" + ( "N\n" if show_toc_node.contents == false else "Y\n" )
 	output += "| alphacanuse=" + ( "N\n" if alpha_node.contents == false else "Y\n" )
-	if raw_node.contents == true:
-		output += "| eft fit = " + convert_to_wiki( eft_node )
+	output += "| eft fit = " + convert_to_wiki( eft_node )
 	output += "}}"
 	
 	output_node.set_contents( output )

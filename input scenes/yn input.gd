@@ -17,9 +17,5 @@ func set_label(new_label):
 	get_node('CheckBox').set_text(label)
 	update()
 
-func set_state( new_state):
-	input_node.pressed = new_state
-	contents = new_state
-
 func _on_CheckBox_pressed():
 	contents = !contents
