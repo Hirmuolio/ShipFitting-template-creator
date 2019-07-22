@@ -1,2 +1,4 @@
 # ShipFitting-template-creator
-WIP. Does not work.
+It works.
+
+TODO: Description and documentation
