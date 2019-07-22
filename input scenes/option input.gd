@@ -2,12 +2,13 @@ tool
 
 extends Control
 
-var contents = ""
+var contents = "0"
 onready var input_node = get_node( "HBoxContainer/OptionButton" )
 export var label = "" setget set_label
 
 func _ready():
-	var difficulties = [0, 1, 2, 3, 4, 5]
+	var difficulties = [0, 1, 2]
+	input_node.clear()
 	for diff in difficulties:
 		input_node.add_item ( str(diff), diff )
 	pass # Replace with function body.
