@@ -190,10 +190,10 @@ func parse_input():
 				slot = "low"
 			elif 12 in dogma_effects:
 				slot = "high"
-			elif 1272 in dogma_attributes:
+			elif float(1272) in dogma_attributes:
 				# Drone bandwidth
 				slot = "drone"
-			elif 1547 in dogma_attributes:
+			elif float(1547) in dogma_attributes:
 				# Rig size
 				slot = "rig"
 			else:
@@ -226,16 +226,23 @@ func parse_input():
 			"low_slots": 0,
 			"rig_slots": 0
 		}
-		# I think ship says it has 0 slots but lets be sure
-		print( "Low slots: ", dogma_attributes_dictionary[12] )
-		if 12 in dogma_attributes_dictionary:
-			ship_cache[ hull ]["low_slots"] = dogma_attributes_dictionary[ 12 ]
-		if 13 in dogma_attributes_dictionary:
-			ship_cache[ hull ]["med_slots"] = dogma_attributes_dictionary[ 13 ]
-		if 14 in dogma_attributes_dictionary:
-			ship_cache[ hull ]["high_slots"] = dogma_attributes_dictionary[ 14 ]
-		if 1137 in dogma_attributes_dictionary:
-			ship_cache[ hull ]["rig_slots"] = dogma_attributes_dictionary[ 1137 ]
+		# I think ship says it has 0 slots but lets be sure and check if attribute exists
+		#print( "attributes: ", dogma_attributes_dictionary )
+		#print( "keys: ", dogma_attributes_dictionary.keys() )
+		#var key = dogma_attributes_dictionary.keys()[2]
+		
+		#print( "key: ", key.typeof() )
+		#print( "value: ", dogma_attributes_dictionary[key] )
+		#print( "Low slots: ", dogma_attributes_dictionary[ float(12) ] )
+		
+		if float(12) in dogma_attributes_dictionary:
+			ship_cache[ hull ]["low_slots"] = dogma_attributes_dictionary[ float(12) ]
+		if float(13) in dogma_attributes_dictionary:
+			ship_cache[ hull ]["med_slots"] = dogma_attributes_dictionary[ float(13) ]
+		if float(14) in dogma_attributes_dictionary:
+			ship_cache[ hull ]["high_slots"] = dogma_attributes_dictionary[ float(14) ]
+		if float(1137) in dogma_attributes_dictionary:
+			ship_cache[ hull ]["rig_slots"] = dogma_attributes_dictionary[ float(1137) ]
 	
 	save_json(work_folder + "module_cache.json", module_cache)
 	save_json(work_folder + "ship_cache.json", ship_cache)
@@ -260,19 +267,19 @@ func parse_input():
 	#Prepare unfitted json
 	print( "low slots: ", ship_cache[ hull ]["low_slots"] )
 	for n in range( ship_cache[ hull ]["low_slots"] ):
-		low.append( "[Empty Low slot]" )
+		low.append( "[Empty Low Slot]" )
 		low_charge.append( "" )
 		low_charge_count.append( 42 )
 	for n in range( ship_cache[ hull ]["med_slots"] ):
-		med.append( "[Empty Med slot]" )
+		med.append( "[Empty Med Slot]" )
 		med_charge.append( "" )
 		med_charge_count.append( 42 )
 	for n in range( ship_cache[ hull ]["high_slots"] ):
-		high.append( "[Empty High slot]" )
+		high.append( "[Empty High Slot]" )
 		high_charge.append( "" )
 		high_charge_count.append( 42 )
 	for n in range( ship_cache[ hull ]["rig_slots"] ):
-		rig.append( "[Empty Rig slot]" )
+		rig.append( "[Empty Rig Slot]" )
 	
 	
 	var eft_format
@@ -281,6 +288,7 @@ func parse_input():
 	var high_modules = 0
 	var rigs = 0
 	
+	print( "Getting things to fit" )
 	for line in range( 1, linecount ):
 		var string = eft_node.get_line ( line )
 		
@@ -290,6 +298,7 @@ func parse_input():
 		var item_name = ""
 		var charge = ""
 		var count = 1
+		
 		
 		if string.find( "," ) != -1:
 			# Module with charges
@@ -308,6 +317,8 @@ func parse_input():
 				count = temp[1]
 			else:
 				item_name = string
+			
+		print( '"', item_name, '"' )
 		
 		if is_low_slot( item_name ):
 			low[ low_modules ] = item_name
@@ -322,14 +333,17 @@ func parse_input():
 				med_charge_count[ med_modules ] = count
 			med_modules += 1
 		elif is_high_slot( item_name ):
+			print( "is high" )
 			high[ high_modules ] = item_name
 			if charge != "":
 				high_charge[ high_modules ] = charge
 				high_charge_count[ high_modules ] = count
+			high_modules += 1
 		elif is_rig_slot( item_name ):
 			rig[ rigs ] = item_name
 			if charge != "":
 				print( "You have charges in your rig?" )
+			rigs += 1
 		elif is_drone_slot( item_name ):
 			drone.append( item_name )
 			drone_count.append( count )
@@ -337,15 +351,65 @@ func parse_input():
 			cargo.append( item_name )
 			cargo_count.append( count )
 	
-	var fit_name = "asd"
+	var fit_name = eft_node.get_line ( 0 ).split( "," )[1].rstrip ( "]" )
+	
+	print( "Assembling  template" )
 	# Output in wiki template
 	var output = ""
-	output + "{{ShipFitting\n"
-	output + "| ship=" + str(hull) + "\n"
-	output + "| shipTypeID="+ str(ship_cache["type_id"]) +  "\n"
-	output + "| fitName=" + fit_name + "\n| fitID=" + fit_name + "\n"
+	
+	# Add basic info
+	output += "{{ShipFitting\n"
+	output += "| ship=" + str(hull) + "\n"
+	output += "| shipTypeID="+ str(ship_cache[hull]["type_id"]) +  "\n"
+	output += "| fitName=" + fit_name + "\n| fitID=" + fit_name + "\n"
+	
+	# Add modules
+	for n in range( high.size() ):
+		var index = str( n + 1 )
+		output += "| high" + index + "name=" + high[n] + "\n"
+		if high[n] != "[Empty High Slot]":
+			output += "| high" + index + "typeID=" + str( module_cache[high[n]]["type_id"] ) + "\n"
+	
+	for n in range( med.size() ):
+		var index = str( n + 1 )
+		output += "| mid" + index + "name=" + med[n] + "\n"
+		if med[n] != "[Empty Med Slot]":
+			output += "| mid" + index + "typeID=" + str( module_cache[med[n]]["type_id"] ) + "\n"
+	
+	for n in range( low.size() ):
+		var index = str( n + 1 )
+		output += "| low" + index + "name=" + high[n] + "\n"
+		if low[n] != "[Empty Low Slot]":
+			output += "| low" + index + "typeID=" + str( module_cache[low[n]]["type_id"] ) + "\n"
+	
+	for n in range( rig.size() ):
+		var index = str( n + 1 )
+		if rig[n] != "[Empty Rig Slot]":
+			output += "| rig" + index + "name=" + rig[n] + "\n"
+	
+	for n in range( drone.size() ):
+		var index = str( n + 1 )
+		output += "| drone" + index + "name=" + drone[n] +  " x" +str(drone_count[n]) + "\n"
+		output += "| drone" + index + "typeID=" + str( module_cache[drone[n]]["type_id"] ) + "\n"
+	
+	for n in range( cargo.size() ):
+		var index = str( n + 1 )
+		output += "| charge" + index + "name=" + cargo[n] + " x" +str(cargo_count[n]) + "\n"
+		output += "| charge" + index + "typeID=" + str( module_cache[cargo[n]]["type_id"] ) + "\n"
+	
+	# TODO connect to button options
+	output += "| skills=\n"
+	output += "| showSKILLS=N\n"
+	output += "| notes=\n"
+	output += "| showNOTES=N\n"
+	output += "| difficulty=1\n"
+	output += "| version=20161114\n"
+	output += "| showTOC=Y\n"
+	output += "| alphacanuse=N\n"
+	output += "}}"
 	
 	output_node.set_contents( output )
+	print( "DONE" )
 
 func _on_parse_pressed():
 	parse_input()
