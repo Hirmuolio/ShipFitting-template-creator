@@ -9,7 +9,7 @@ Just paste the EFT fit to the panel on the left. Set the options on the middle i
 * ID - If no ID is given the name is used.
 * Date - If no date is given the current date is used.
 * Difficulty - 0/1/2 to tell how hard the fit is to use (skill or piloting talent).
-* ALpha usable - Can alpha use this fit?
+* Alpha usable - Can alpha use this fit?
 * Show skills by default - If enabled the skill tab will be expanded by default.
 * Show notes by default - If enabled the notes tab will be expanded by default.
 * Show on TOC - If enabled the fit will have entry on the table of contents of the page.
