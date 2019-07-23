@@ -441,3 +441,13 @@ func parse_input():
 
 func _on_parse_pressed():
 	parse_input()
+
+
+func _on_clear_pressed():
+	eft_node.set_contents( "" )
+	output_node.set_contents( "" )
+	name_node.set_contents( "" )
+	id_node.set_contents( "" )
+	date_node.set_contents( "" )
+	notes_node.set_contents( "" )
+	skills_node.set_contents( "" )

@@ -145,16 +145,16 @@ margin_right = 354.0
 margin_bottom = 20.0
 
 [node name="parse" type="Button" parent="HBoxContainer/VBoxContainer3/HBoxContainer"]
-margin_right = 269.0
+margin_right = 306.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Parse input"
 
 [node name="clear" type="Button" parent="HBoxContainer/VBoxContainer3/HBoxContainer"]
-margin_left = 273.0
+margin_left = 310.0
 margin_right = 354.0
 margin_bottom = 20.0
-text = "Clear input"
+text = "Clear"
 
 [node name="output" parent="HBoxContainer/VBoxContainer3" instance=ExtResource( 2 )]
 anchor_right = 0.0
@@ -165,3 +165,4 @@ margin_bottom = 592.0
 label = "Output:"
 
 [connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/parse" to="." method="_on_parse_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/clear" to="." method="_on_clear_pressed"]

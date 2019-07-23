@@ -17,6 +17,9 @@ func set_label(new_label):
 	get_node('HBoxContainer/Label').set_text(label)
 	update()
 
+func set_contents( new_contents ):
+	contents = new_contents
+	input_node.text = new_contents
 
 func _on_LineEdit_text_changed(new_text):
 	contents = new_text

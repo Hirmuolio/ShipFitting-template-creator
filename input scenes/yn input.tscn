@@ -20,6 +20,8 @@ stretch_mode = 2
 [node name="CheckBox" type="CheckBox" parent="."]
 margin_right = 24.0
 margin_bottom = 24.0
+focus_mode = 0
 action_mode = 0
+enabled_focus_mode = 0
 
 [connection signal="pressed" from="CheckBox" to="." method="_on_CheckBox_pressed"]
