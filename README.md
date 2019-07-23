@@ -14,7 +14,7 @@ Just paste the EFT fit to the panel on the left. Set the options on the middle i
 * Show notes by default - If enabled the notes tab will be expanded by default.
 * Show on TOC - If enabled the fit will have entry on the table of contents of the page.
 * Add loaded ammo to cargo - When enabled the loaded ammo are handled as if they were in cargo. If disabled the loaded ammo are ignored completely.
-* Notes - Notes aboutthe fit. Each line will go to new note.
+* Notes - Notes aboutthe fit. Each line willbe one note.
 * Skills - Required skills. Each line will be one skill.
 
 After pressing the "Parse input" button the finished template output will be on the panel on right. Copy paste it to wiki.
