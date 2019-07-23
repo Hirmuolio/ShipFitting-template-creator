@@ -1,7 +1,7 @@
 extends Control
 
 var item_cache = {}
-var ship_cache = {}
+#var ship_cache = {}
 
 var work_folder = "user://"
 #var work_folder = "/"
@@ -25,7 +25,7 @@ var abort = false
 
 func _ready():
 	item_cache = load_json(work_folder + "item_cache.json")
-	ship_cache = load_json(work_folder + "ship_cache.json")
+	#ship_cache = load_json(work_folder + "ship_cache.json")
 	
 	# Set some defaults
 	raw_node.set_state( false )
@@ -212,6 +212,7 @@ func check_input_esi_info( item_names, hull ):
 	
 	if reduced_names.size() != 0:
 		# Get item IDs
+		print( "Getting info from ESI for items: ", reduced_names )
 		var esi_response = yield( esi_caller.get_item_ids( reduced_names ), "completed" )
 		var name_to_id = {}
 		
@@ -225,9 +226,13 @@ func check_input_esi_info( item_names, hull ):
 					print( 'Error: Unknonw item "' + item + '" not found in ESI. This fit may be outdated.' )
 					abort = true
 					return
+		else:
+			print( "Error: Failed to get type ID for any of the items." )
+			abort = true
+			return
 		
 		# Get item attributes
-		if reduced_names.size() != 0:
+		if name_to_id.size() != 0:
 			for item in reduced_names:
 				esi_response = yield( esi_caller.get_item_info( name_to_id[item] ), "completed" )
 				
@@ -266,13 +271,21 @@ func check_input_esi_info( item_names, hull ):
 					"slot": slot
 					}
 	
-	save_json(work_folder + "item_cache.json", item_cache)
+		save_json(work_folder + "item_cache.json", item_cache)
 	
 	print( "Item info fetching completed" )
 	esi_caller.queue_free()
 
 func parse_input():
 	var input_node = eft_node.get_node( "VBoxContainer/TextEdit" )
+	
+	# Check if the input is even somewhat valid
+	if eft_node.get_line( 0 ).length() == 0:
+		print( "Error: Invalid input. Empty first line" )
+		return
+	elif eft_node.get_line( 0 )[0] != "[":
+		print( 'Error: No "[name, hull]" on first line')
+		return
 	
 	# Find what is the hull in the fit
 	var hull = input_node.get_line ( 0 ).split( "," )[0].lstrip ( "[" )
@@ -341,7 +354,7 @@ func parse_input():
 		elif is_low_slot( item ):
 			low.append( item )
 		elif is_rig_slot( item ):
-			low.append( item )
+			rig.append( item )
 		elif is_subsystem_slot( item ):
 			subsystem.append( item )
 		elif is_drone_slot( item ):
