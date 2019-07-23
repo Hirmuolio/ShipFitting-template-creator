@@ -215,7 +215,6 @@ func check_input_esi_info( item_names, hull ):
 		print( "Getting info from ESI for items: ", reduced_names )
 		var esi_response = yield( esi_caller.get_item_ids( reduced_names ), "completed" )
 		var name_to_id = {}
-		
 		if "inventory_types" in esi_response["body"]:
 			for item_response in esi_response["body"]["inventory_types"]:
 				name_to_id[ item_response["name"] ] = item_response["id"]
@@ -277,6 +276,7 @@ func check_input_esi_info( item_names, hull ):
 	esi_caller.queue_free()
 
 func parse_input():
+	abort = false
 	var input_node = eft_node.get_node( "VBoxContainer/TextEdit" )
 	
 	# Check if the input is even somewhat valid
