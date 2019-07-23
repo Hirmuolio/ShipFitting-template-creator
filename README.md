@@ -1,6 +1,7 @@
 # ShipFitting-template-creator
 
 This tool is for turning EFT formatted ship fits into ShipFitting template for Uni Wiki.
+https://wiki.eveuniversity.org/Template:ShipFitting
 
 ## How to use
 
