@@ -226,7 +226,8 @@ func check_input_esi_info( item_names : Array ):
 					abort = true
 					return
 		else:
-			log_message( "Error: Failed to get type ID for any of the items." )
+			log_message( "Error: Failed to get type ID of the following items:" )
+			log_message(  str(reduced_names) )
 			abort = true
 			return
 		
@@ -276,6 +277,8 @@ func check_input_esi_info( item_names : Array ):
 	esi_caller.queue_free()
 
 func parse_input():
+	log_message( "" )
+	output_node.set_contents( "" )
 	abort = false
 	var input_node : Node = eft_node.get_node( "VBoxContainer/TextEdit" )
 	
