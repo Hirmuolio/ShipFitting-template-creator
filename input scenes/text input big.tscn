@@ -9,6 +9,9 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 50, 50 )
 size_flags_vertical = 3
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TextureRect" type="TextureRect" parent="."]
 self_modulate = Color( 0, 0, 0, 1 )
@@ -17,6 +20,9 @@ anchor_bottom = 1.0
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -25,10 +31,32 @@ margin_left = 2.0
 margin_top = 2.0
 margin_right = -2.0
 margin_bottom = -2.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1020.0
 margin_bottom = 14.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_right = 1020.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="import" type="Button" parent="VBoxContainer/HBoxContainer"]
+visible = false
+margin_left = 867.0
+margin_right = 1020.0
+margin_bottom = 20.0
+text = "Import from clipboard"
+
+[node name="export" type="Button" parent="VBoxContainer/HBoxContainer"]
+visible = false
+margin_left = 897.0
+margin_right = 1020.0
+margin_bottom = 20.0
+text = "Copy to clipboard"
 
 [node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
 margin_top = 18.0
@@ -36,5 +64,6 @@ margin_right = 1020.0
 margin_bottom = 596.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/import" to="." method="_on_import_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/export" to="." method="_on_export_pressed"]
 [connection signal="text_changed" from="VBoxContainer/TextEdit" to="." method="_on_TextEdit_text_changed"]

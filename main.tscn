@@ -1,15 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://input scenes/text input big.tscn" type="PackedScene" id=2]
 [ext_resource path="res://input scenes/text input small.tscn" type="PackedScene" id=3]
 [ext_resource path="res://input scenes/option input.tscn" type="PackedScene" id=4]
 [ext_resource path="res://input scenes/yn input.tscn" type="PackedScene" id=5]
+[ext_resource path="res://log.tscn" type="PackedScene" id=6]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
@@ -31,6 +35,7 @@ anchor_bottom = 0.0
 margin_right = 354.0
 margin_bottom = 592.0
 label = "EFT input"
+show_import = true
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 margin_left = 358.0
@@ -147,13 +152,17 @@ margin_bottom = 20.0
 [node name="parse" type="Button" parent="HBoxContainer/VBoxContainer3/HBoxContainer"]
 margin_right = 306.0
 margin_bottom = 20.0
+focus_mode = 0
 size_flags_horizontal = 3
+enabled_focus_mode = 0
 text = "Parse input"
 
 [node name="clear" type="Button" parent="HBoxContainer/VBoxContainer3/HBoxContainer"]
 margin_left = 310.0
 margin_right = 354.0
 margin_bottom = 20.0
+focus_mode = 0
+enabled_focus_mode = 0
 text = "Clear"
 
 [node name="output" parent="HBoxContainer/VBoxContainer3" instance=ExtResource( 2 )]
@@ -161,8 +170,13 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 24.0
 margin_right = 354.0
-margin_bottom = 592.0
+margin_bottom = 438.0
 label = "Output:"
+show_export = true
 
+[node name="TextureRect" parent="HBoxContainer/VBoxContainer3" instance=ExtResource( 6 )]
+margin_top = 442.0
+margin_right = 354.0
+margin_bottom = 592.0
 [connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/parse" to="." method="_on_parse_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/clear" to="." method="_on_clear_pressed"]

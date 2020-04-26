@@ -13,7 +13,7 @@ func _ready():
 func set_label(new_label):
 	label = new_label
 	if !has_node('CheckBox'):
-        return 
+		return 
 	get_node('CheckBox').set_text(label)
 	update()
 

@@ -17,7 +17,7 @@ func _ready():
 func set_label(new_label):
 	label = new_label
 	if !has_node('HBoxContainer/Label'):
-        return 
+		return 
 	get_node('HBoxContainer/Label').set_text(label)
 	update()
 

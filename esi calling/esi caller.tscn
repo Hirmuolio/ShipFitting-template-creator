@@ -4,5 +4,4 @@
 
 [node name="HTTPRequest" type="HTTPRequest"]
 script = ExtResource( 1 )
-
 [connection signal="request_completed" from="." to="." method="_on_HTTPRequest_request_completed"]
