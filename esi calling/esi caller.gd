@@ -39,7 +39,7 @@ func get_item_ids( item_array ):
 	parent_node.log_message( "Getting item IDs from ESI..." )
 	
 	while keep_trying:
-		request(url, headers, use_ssl, HTTPClient.METHOD_POST, var2str(item_array) )
+		var _length = request(url, headers, use_ssl, HTTPClient.METHOD_POST, var2str(item_array) )
 		yield( self, "request_completed" )
 		if not retry_error( response["response_code"] ):
 			keep_trying = false
@@ -51,7 +51,7 @@ func get_item_info( item_id : int ):
 	parent_node.log_message( "Getting info on item ID from ESI..." )
 	
 	while keep_trying:
-		request(url )
+		var _length = request(url )
 		yield( self, "request_completed" )
 		if not retry_error( response["response_code"] ):
 				keep_trying = false

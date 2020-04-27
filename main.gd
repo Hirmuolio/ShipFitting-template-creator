@@ -24,6 +24,9 @@ onready var esi_caller_scene = load( "res://esi calling/esi caller.tscn" )
 var abort : bool = false
 
 func _ready():
+	if OS.get_name() == "HTML5":
+		OS.set_low_processor_usage_mode(false)
+	
 	item_cache = load_json(work_folder + "item_cache.json")
 	
 	# Set some defaults

@@ -178,6 +178,8 @@ label = "Output:"
 show_export_b = true
 
 [node name="TextureRect" parent="HBoxContainer/VBoxContainer3" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 442.0
 margin_right = 354.0
 margin_bottom = 592.0

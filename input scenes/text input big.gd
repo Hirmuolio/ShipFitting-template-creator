@@ -45,7 +45,11 @@ func _on_TextEdit_text_changed():
 
 
 func _on_import_pressed():
-	set_contents( OS.get_clipboard() )
+	if OS.get_name() == "HTML5":
+		var input : String = JavaScript.eval('prompt("Paste the fit");' )
+		set_contents( input )
+	else:
+		set_contents( OS.get_clipboard() )
 
 
 func _on_export_pressed():
