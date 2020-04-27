@@ -6,8 +6,6 @@ var base_url : String = 'https://esi.evetech.net'
 
 onready var parent_node : Node = get_node("..")
 
-signal call_completed
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -59,7 +57,7 @@ func get_item_info( item_id : int ):
 				keep_trying = false
 	return response
 
-func _on_HTTPRequest_request_completed(result, response_code, headers, body):
+func _on_HTTPRequest_request_completed(_result, response_code, _headers, body):
 	var json = JSON.parse(body.get_string_from_utf8() )
 	
 	response = {}

@@ -5,13 +5,13 @@ extends Control
 var contents : String = ""
 onready var input_node : Node = get_node( "VBoxContainer/TextEdit" )
 export var label : String = "" setget set_label
-export var show_import : bool = false
-export var show_export : bool = false
+export var show_import_b : bool = false
+export var show_export_b : bool = false
 
 func _ready():
-	if show_import:
+	if show_import_b:
 		show_import()
-	if show_export:
+	if show_export_b:
 		show_export()
 
 

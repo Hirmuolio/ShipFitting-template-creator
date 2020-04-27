@@ -20,7 +20,13 @@ run/main_scene="res://main.tscn"
 run/low_processor_mode=true
 config/icon="res://icon.png"
 
+[display]
+
+window/energy_saving/keep_screen_on=false
+
 [rendering]
 
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
 quality/2d/use_pixel_snap=true
 environment/default_environment="res://default_env.tres"

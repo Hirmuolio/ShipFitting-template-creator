@@ -35,7 +35,6 @@ anchor_bottom = 0.0
 margin_right = 354.0
 margin_bottom = 592.0
 label = "EFT input"
-show_import = true
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 margin_left = 358.0
@@ -172,7 +171,6 @@ margin_top = 24.0
 margin_right = 354.0
 margin_bottom = 438.0
 label = "Output:"
-show_export = true
 
 [node name="TextureRect" parent="HBoxContainer/VBoxContainer3" instance=ExtResource( 6 )]
 margin_top = 442.0
