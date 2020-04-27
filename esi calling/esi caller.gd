@@ -26,7 +26,7 @@ func retry_error( response_code: int):
 		parent_node.log_message( str( "Error ", response_code, ". Retrying..." ) )
 		return true
 	elif int(response_code) in success_codes:
-		parent_node.log_message( str( "Call completed (", response_code, ")" ) )
+		parent_node.log_message( str( "Call completed (", response_code, ")." ) )
 		return false
 	else:
 		parent_node.log_message( str( "Error ", response_code, ". Call failed." ) )

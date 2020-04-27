@@ -29,7 +29,7 @@ func _ready():
 	# Set some defaults
 	raw_node.set_state( false )
 	ammo_node.set_state( true )
-	log_message("Welcome to ShipFitting template importer")
+	log_message("Welcome to ShipFitting template importer.")
 
 func log_message(new_line: String):
 	log_node.add_message(new_line)
@@ -78,7 +78,7 @@ func is_high_slot( string: String ):
 		if item_cache[ string ]["slot"] == "high":
 			return true
 	else:
-		log_message( "Unknown module in slot determination. Something is broken" )
+		log_message( "Unknown module in slot determination. Something is broken." )
 	return false
 
 func is_med_slot( string: String ):
@@ -90,7 +90,7 @@ func is_med_slot( string: String ):
 		if item_cache[ string ]["slot"] == "medium":
 			return true
 	else:
-		log_message( "Unknown module in slot determination. Something is broken" )
+		log_message( "Unknown module in slot determination. Something is broken." )
 	return false
 
 func is_low_slot( string: String ):
@@ -102,7 +102,7 @@ func is_low_slot( string: String ):
 		if item_cache[ string ]["slot"] == "low":
 			return true
 	else:
-		log_message( "Unknown module in slot determination. Something is broken" )
+		log_message( "Unknown module in slot determination. Something is broken." )
 	return false
 
 func is_rig_slot( string: String ):
@@ -114,7 +114,7 @@ func is_rig_slot( string: String ):
 		if item_cache[ string ]["slot"] == "rig":
 			return true
 	else:
-		log_message( "Unknown module in slot determination. Something is broken" )
+		log_message( "Unknown module in slot determination. Something is broken." )
 	return false
 
 func is_subsystem_slot( string: String ):
@@ -126,7 +126,7 @@ func is_subsystem_slot( string: String ):
 		if item_cache[ string ]["slot"] == "subsystem":
 			return true
 	else:
-		log_message( "Unknown module in slot determination. Something is broken" )
+		log_message( "Unknown module in slot determination. Something is broken." )
 	return false
 
 func is_drone_slot( string: String ):
@@ -138,7 +138,7 @@ func is_drone_slot( string: String ):
 		if item_cache[ string ]["slot"] == "drone":
 			return true
 	else:
-		log_message( "Unknown module in slot determination. Something is broken" )
+		log_message( "Unknown module in slot determination. Something is broken." )
 	return false
 
 func has_count( string: String ):
@@ -164,7 +164,7 @@ func split_count( string: String ):
 	temp = string.split( " x " )
 	if temp[1].is_valid_integer():
 		return [ temp[0], temp[1]]
-	log_message( "Something is broken. This should happen" )
+	log_message( "Something is broken. This should happen." )
 
 func remove_count( string: String ):
 	if has_count( string ):
@@ -194,7 +194,7 @@ func convert_to_wiki_list( RichTextLabel_node: Node ):
 func check_input_esi_info( item_names : Array ):
 	# Check that all input items are in chache
 	# If they are not then get their info from ESI and add to cache
-	log_message( "Getting info on the items in the fit" )
+	log_message( "Getting info on the items in the fit..." )
 	yield(get_tree().create_timer(0.1), "timeout")
 	
 	var esi_caller = esi_caller_scene.instance()
@@ -212,7 +212,7 @@ func check_input_esi_info( item_names : Array ):
 	
 	if reduced_names.size() != 0:
 		# Get item IDs
-		log_message( str( "Getting info from ESI for items: ", str(reduced_names) ) )
+		log_message( str( "Getting info from ESI for items: ", str(reduced_names), "..." ) )
 		var esi_response : Dictionary = yield( esi_caller.get_item_ids( reduced_names ), "completed" )
 		var name_to_id : Dictionary = {}
 		if "inventory_types" in esi_response["body"]:
@@ -273,7 +273,7 @@ func check_input_esi_info( item_names : Array ):
 	
 		save_json(work_folder + "item_cache.json", item_cache)
 	
-	log_message( "Item info fetching completed" )
+	log_message( "Item info fetching completed." )
 	esi_caller.queue_free()
 
 func parse_input():
@@ -284,10 +284,10 @@ func parse_input():
 	
 	# Check if the input is even somewhat valid
 	if eft_node.get_line( 0 ).length() == 0:
-		log_message( "Error: Invalid input. Empty first line" )
+		log_message( "Error: Invalid input. Empty first line." )
 		return
 	elif eft_node.get_line( 0 )[0] != "[":
-		log_message( 'Error: No "[name, hull]" on first line' )
+		log_message( 'Error: No "[name, hull]" on first line.' )
 		return
 	
 	# Find what is the hull in the fit
@@ -334,7 +334,7 @@ func parse_input():
 	yield( check_input_esi_info( item_names ), "completed" )
 	
 	if abort:
-		log_message( 'Unable to process this fit' )
+		log_message( 'Unable to process this fit.' )
 		return
 	
 	# Convert the input into dictionaries
@@ -367,7 +367,7 @@ func parse_input():
 	var fit_name : String = eft_node.get_line ( 0 ).split( "," )[1].rstrip ( "]" )
 	
 	# Output in wiki template
-	log_message( 'Assembling  template' )
+	log_message( 'Assembling  template...' )
 	var output : String = ""
 	
 	# Add basic info
@@ -439,7 +439,7 @@ func parse_input():
 	output += "}}"
 	
 	output_node.set_contents( output )
-	log_message( 'Template is ready' )
+	log_message( 'Template is ready.' )
 
 func _on_parse_pressed():
 	parse_input()
