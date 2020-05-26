@@ -42,19 +42,19 @@ func load_json(file_path: String):
 	#Returns the finished dictionary
 	var loaded_file
 	var text : String
-	var dictionary : Dictionary
+	var parsed : JSONParseResult
 	
 	loaded_file = File.new()
 	loaded_file.open(file_path, loaded_file.READ)
 	text = loaded_file.get_as_text()
-	dictionary = parse_json(text)
+	parsed = JSON.parse(text)
 	loaded_file.close()
 	
-	if dictionary == null:
+	if parsed.error == OK and typeof(parsed.result) == TYPE_DICTIONARY:
+		return parsed.result
+	else:
 		log_message( str( 'ERROR - Failed to load ', file_path ) )
 		return {}
-			
-	return dictionary
 
 func save_json(file_path: String, dictionary: Dictionary):
 	var file = File.new()
