@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://input scenes/text input big.tscn" type="PackedScene" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://input scenes/option input.tscn" type="PackedScene" id=4]
 [ext_resource path="res://input scenes/yn input.tscn" type="PackedScene" id=5]
 [ext_resource path="res://log.tscn" type="PackedScene" id=6]
+[ext_resource path="res://blank.png" type="Texture" id=7]
+[ext_resource path="res://program info.gd" type="Script" id=8]
+[ext_resource path="res://options.gd" type="Script" id=9]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -153,7 +156,7 @@ margin_right = 354.0
 margin_bottom = 20.0
 
 [node name="parse" type="Button" parent="HBoxContainer/VBoxContainer3/HBoxContainer"]
-margin_right = 306.0
+margin_right = 239.0
 margin_bottom = 20.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -161,12 +164,18 @@ enabled_focus_mode = 0
 text = "Parse input"
 
 [node name="clear" type="Button" parent="HBoxContainer/VBoxContainer3/HBoxContainer"]
-margin_left = 310.0
-margin_right = 354.0
+margin_left = 243.0
+margin_right = 287.0
 margin_bottom = 20.0
 focus_mode = 0
 enabled_focus_mode = 0
 text = "Clear"
+
+[node name="options" type="Button" parent="HBoxContainer/VBoxContainer3/HBoxContainer"]
+margin_left = 291.0
+margin_right = 354.0
+margin_bottom = 20.0
+text = "Options"
 
 [node name="output" parent="HBoxContainer/VBoxContainer3" instance=ExtResource( 2 )]
 anchor_right = 0.0
@@ -177,11 +186,113 @@ margin_bottom = 438.0
 label = "Output:"
 show_export_b = true
 
-[node name="TextureRect" parent="HBoxContainer/VBoxContainer3" instance=ExtResource( 6 )]
+[node name="log" parent="HBoxContainer/VBoxContainer3" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 442.0
 margin_right = 354.0
 margin_bottom = 592.0
+
+[node name="options" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="options"]
+modulate = Color( 0.101961, 0.101961, 0.101961, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 7 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="options"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 2.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="options/VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="options/VBoxContainer/HBoxContainer"]
+margin_right = 921.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="options/VBoxContainer/HBoxContainer"]
+margin_left = 925.0
+margin_right = 1024.0
+margin_bottom = 20.0
+size_flags_vertical = 0
+text = "Close options"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="options/VBoxContainer"]
+margin_top = 24.0
+margin_right = 706.0
+margin_bottom = 206.0
+size_flags_horizontal = 0
+
+[node name="program info" type="Label" parent="options/VBoxContainer/VBoxContainer"]
+margin_right = 706.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+script = ExtResource( 8 )
+
+[node name="clear cache" type="Button" parent="options/VBoxContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 119.0
+margin_bottom = 64.0
+size_flags_horizontal = 0
+text = "Clear item cache"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="info" type="Label" parent="options/VBoxContainer/VBoxContainer"]
+margin_top = 68.0
+margin_right = 706.0
+margin_bottom = 158.0
+rect_min_size = Vector2( 0, 90 )
+size_flags_vertical = 1
+text = "\"Clear cache\" will delete all saved module info.
+Use this when a new module has same name as old module.
+This will also remove outdated names from the cache preventing you from accidentally using outdated names.
+Cache does not need to be deleted when modules change names."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="options/VBoxContainer/VBoxContainer"]
+margin_top = 162.0
+margin_right = 706.0
+margin_bottom = 182.0
+
+[node name="Label" type="Label" parent="options/VBoxContainer/VBoxContainer/HBoxContainer"]
+margin_top = 3.0
+margin_right = 57.0
+margin_bottom = 17.0
+text = "Website:"
+
+[node name="website" type="Button" parent="options/VBoxContainer/VBoxContainer/HBoxContainer"]
+modulate = Color( 0.643137, 0.690196, 1, 1 )
+margin_left = 61.0
+margin_right = 446.0
+margin_bottom = 20.0
+text = "https://github.com/Hirmuolio/ShipFitting-template-creator"
+flat = true
+align = 0
 [connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/parse" to="." method="_on_parse_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/clear" to="." method="_on_clear_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/options" to="options" method="_on_options_pressed"]
+[connection signal="pressed" from="options/VBoxContainer/HBoxContainer/Button" to="options" method="_on_Button_pressed"]
+[connection signal="pressed" from="options/VBoxContainer/VBoxContainer/clear cache" to="." method="_on_clear_cache_pressed"]
+[connection signal="pressed" from="options/VBoxContainer/VBoxContainer/HBoxContainer/website" to="options" method="_on_website_pressed"]

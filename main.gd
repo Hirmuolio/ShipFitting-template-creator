@@ -18,7 +18,7 @@ onready var skills_node : Node = get_node( "HBoxContainer/VBoxContainer2/skills"
 onready var raw_node : Node = get_node( "HBoxContainer/VBoxContainer2/raw" )
 onready var eft_node : Node = get_node( "HBoxContainer/VBoxContainer/input" )
 onready var ammo_node : Node = get_node( "HBoxContainer/VBoxContainer2/ammo" )
-onready var log_node : Node = get_node( "HBoxContainer/VBoxContainer3/TextureRect" )
+onready var log_node : Node = get_node( "HBoxContainer/VBoxContainer3/log" )
 onready var esi_caller_scene = load( "res://esi calling/esi caller.tscn" )
 
 var abort : bool = false
@@ -456,3 +456,8 @@ func _on_clear_pressed():
 	date_node.set_contents( "" )
 	notes_node.set_contents( "" )
 	skills_node.set_contents( "" )
+
+
+func _on_clear_cache_pressed():
+	item_cache = {}
+	save_json(work_folder + "item_cache.json", item_cache)
