@@ -20,6 +20,11 @@ run/main_scene="res://main.tscn"
 run/low_processor_mode=true
 config/icon="res://icon.png"
 
+[autoload]
+
+Utilities="*res://utilities.tscn"
+DataHandler="*res://data_handler.tscn"
+
 [display]
 
 window/energy_saving/keep_screen_on=false

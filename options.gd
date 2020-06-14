@@ -17,4 +17,4 @@ func _on_Button_pressed():
 
 
 func _on_website_pressed():
-	OS.shell_open("https://github.com/Hirmuolio/ShipFitting-template-creator")
+	var _err = OS.shell_open("https://github.com/Hirmuolio/ShipFitting-template-creator")

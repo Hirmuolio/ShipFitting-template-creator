@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://input scenes/text input big.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://blank.png" type="Texture" id=7]
 [ext_resource path="res://program info.gd" type="Script" id=8]
 [ext_resource path="res://options.gd" type="Script" id=9]
+[ext_resource path="res://esi calling/esi caller.tscn" type="PackedScene" id=10]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -194,6 +195,7 @@ margin_right = 354.0
 margin_bottom = 592.0
 
 [node name="options" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 9 )
@@ -290,6 +292,8 @@ margin_bottom = 20.0
 text = "https://github.com/Hirmuolio/ShipFitting-template-creator"
 flat = true
 align = 0
+
+[node name="esi_caller" parent="." instance=ExtResource( 10 )]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/parse" to="." method="_on_parse_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/clear" to="." method="_on_clear_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer3/HBoxContainer/options" to="options" method="_on_options_pressed"]
