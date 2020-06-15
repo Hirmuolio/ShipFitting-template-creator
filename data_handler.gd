@@ -35,14 +35,21 @@ func get_item_id( item_name : String ) -> int:
 		print( "Something is very broken. getting name ", response["response_code"] )
 		return 0
 	# Response is dictionary with array with dictionary
-	var item_id = response["response"].result["inventory_types"][0]["id"]
-	names_cache[item_name] = item_id
-	Utilities.save_json(work_folder + "names_cache.json", names_cache)
-	
-	return item_id
+	if "inventory_types" in response["response"].result:
+		var item_id = response["response"].result["inventory_types"][0]["id"]
+		names_cache[item_name] = item_id
+		Utilities.save_json(work_folder + "names_cache.json", names_cache)
+		
+		return item_id
+	else:
+		print( "Invalid item name ", item_name)
+		return 0
 
 
 func get_item_stats( item_id : int ) -> Dictionary:
+	if item_id == 0:
+		print( "Invalid item attribute check")
+		return {}
 	if str( item_id ) in item_cache:
 		yield(get_tree(),"idle_frame")
 		return item_cache[ str( item_id ) ]

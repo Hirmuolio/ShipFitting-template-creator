@@ -69,6 +69,7 @@ func convert_to_wiki_list( RichTextLabel_node: Node ):
 func fit_to_template( input_fit : ship_fit):
 	log_message( 'Assembling  template...' )
 	var output : String = ""
+	var errors : String = ""
 	
 	# Add basic info
 	output += "{{ShipFitting\n"
@@ -157,6 +158,7 @@ func fit_to_template( input_fit : ship_fit):
 		output += "| eft fit = " + convert_to_wiki( eft_node )
 	output += "}}"
 	
+	log_message( errors )
 	return output
 
 

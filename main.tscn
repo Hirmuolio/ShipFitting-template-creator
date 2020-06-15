@@ -132,9 +132,9 @@ label = "Keep loaded ammo in EFT"
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 224.0
+margin_top = 280.0
 margin_right = 300.0
-margin_bottom = 248.0
+margin_bottom = 304.0
 label = "Include raw EFT data"
 
 [node name="notes" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 2 )]

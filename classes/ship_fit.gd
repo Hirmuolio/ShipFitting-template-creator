@@ -31,6 +31,7 @@ func add_module( module_name : String, loaded_charge : String = "" ):
 	module.item_name = module_name
 	if module_name[0] == "[":
 		module.is_item = false
+		yield( Utilities.wait_frame(), "completed" )
 		return
 	
 	yield( module.get_stats(), "completed" )
