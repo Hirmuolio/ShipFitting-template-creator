@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://fit_parsing/fit_parser.gd" type="Script" id=1]
+
+[node name="fit_parser" type="Node"]
+script = ExtResource( 1 )

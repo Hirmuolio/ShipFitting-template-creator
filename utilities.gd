@@ -15,6 +15,12 @@ func load_json(file_path: String) -> Dictionary:
 	var text : String
 	var dictionary : Dictionary
 	
+	var file2Check = File.new()
+	if !file2Check.file_exists(file_path):
+		print( str( 'ERROR - does not exist: ', file_path ) )
+		return {}
+
+	
 	loaded_file = File.new()
 	loaded_file.open(file_path, loaded_file.READ)
 	text = loaded_file.get_as_text()

@@ -8,9 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node",
+"class": "fit_item",
+"language": "GDScript",
+"path": "res://classes/module.gd"
+}, {
+"base": "Node",
+"class": "ship_fit",
+"language": "GDScript",
+"path": "res://classes/ship_fit.gd"
+} ]
 _global_script_class_icons={
-
+"fit_item": "",
+"ship_fit": ""
 }
 
 [application]
@@ -24,6 +35,10 @@ config/icon="res://icon.png"
 
 Utilities="*res://utilities.tscn"
 DataHandler="*res://data_handler.tscn"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
 
 [display]
 
