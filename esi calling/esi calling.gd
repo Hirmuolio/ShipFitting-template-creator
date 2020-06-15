@@ -8,7 +8,7 @@ var attempts : int = 0
 var success_codes = [200, 204, 304, 400, 404]
 
 var base_url : String = 'https://esi.evetech.net'
-var useragent = "EVE Uni ship fit template creator"
+var useragent = "EVE Uni wiki ship fit template creator"
 
 signal call_parsed
 signal send_message( message )

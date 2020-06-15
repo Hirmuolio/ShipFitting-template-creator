@@ -22,7 +22,6 @@ onready var input_node : Node = eft_node.get_node( "VBoxContainer/TextEdit" )
 
 onready var fit_parser : Node
 
-var abort : bool = false
 
 func _ready():
 	if OS.get_name() == "HTML5":
