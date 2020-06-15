@@ -180,5 +180,4 @@ func _on_clear_pressed():
 
 
 func _on_clear_cache_pressed():
-	DataHandler.item_cache = {}
-	Utilities.save_json(work_folder + "DataHandler.item_cache.json", DataHandler.item_cache)
+	DataHandler.clear_cache()

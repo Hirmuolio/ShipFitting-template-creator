@@ -17,6 +17,12 @@ func _ready():
 func log_message(new_message : String):
 	emit_signal( "send_message", new_message )
 
+func clear_cache():
+	item_cache = {}
+	names_cache = {}
+	Utilities.save_json(work_folder + "item_cache.json", item_cache)
+	Utilities.save_json(work_folder + "names_cache.json", names_cache)
+
 func get_item_id( item_name : String ) -> int:
 	if item_name in names_cache:
 		yield(get_tree(),"idle_frame")
