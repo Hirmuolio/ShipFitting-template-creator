@@ -33,7 +33,7 @@ func get_item_id( item_name : String ) -> int:
 	if response["response_code"] != 200:
 		# This id is bad. Shouldn't happen ever but lets check anyways.
 		print( "Something is very broken. getting name ", response["response_code"] )
-		return 0
+		return 26902
 	# Response is dictionary with array with dictionary
 	if "inventory_types" in response["response"].result:
 		var item_id = response["response"].result["inventory_types"][0]["id"]
@@ -43,11 +43,11 @@ func get_item_id( item_name : String ) -> int:
 		return item_id
 	else:
 		print( "Invalid item name ", item_name)
-		return 0
+		return 26902
 
 
 func get_item_stats( item_id : int ) -> Dictionary:
-	if item_id == 0:
+	if item_id == 26902:
 		print( "Invalid item attribute check")
 		return {}
 	if str( item_id ) in item_cache:

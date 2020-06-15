@@ -22,6 +22,7 @@ onready var input_node : Node = eft_node.get_node( "VBoxContainer/TextEdit" )
 
 onready var fit_parser : Node
 
+enum slot { high, medium, low, rig, subsystem, drone, item }
 
 func _ready():
 	if OS.get_name() == "HTML5":
@@ -66,10 +67,33 @@ func convert_to_wiki_list( RichTextLabel_node: Node ):
 	return output
 
 
+func item_to_template(item : fit_item, slot_str : String, index : int)->String:
+	var output : String
+	if item.is_item:
+		# | high2name = modulename
+		# | high2typeID = 1234
+		output += "| "+ slot_str + str(index) + "name=" + item.item_name
+		if ammo_node2.contents and item.loaded_charge != null:
+			output += ", " + item.loaded_charge.item_name
+		if slot_str == "charge":
+			output += " x" + str( item.charge_count )
+		output += "\n"
+		output += "| "+ slot_str + str(index) + "typeID=" + str(item.item_id) + "\n"
+	else:
+		# Open slot
+		output += "| "+ slot_str + str(index) + "name=open\n"
+	return output
+
+func check_for_errors( input_fit : ship_fit ):
+	var errors : String
+	for item in input_fit.all_slots_get():
+		if item.item_id == 26902:
+			errors += "Invalid item: " + item.item_name + "\n"
+	return errors
+
 func fit_to_template( input_fit : ship_fit):
 	log_message( 'Assembling  template...' )
 	var output : String = ""
-	var errors : String = ""
 	
 	# Add basic info
 	output += "{{ShipFitting\n"
@@ -78,70 +102,37 @@ func fit_to_template( input_fit : ship_fit):
 	
 	var index : int = 1
 	for item in input_fit.high_slots:
-		if item.is_item:
-			output += "| high" + str(index) + "name=" + item.item_name 
-			if ammo_node2.contents:
-				output += ", " + item.loaded_charge.item_name
-				pass
-			output += "\n"
-			output += "| high" + str(index) + "typeID=" + str(item.item_id) + "\n"
-			# TODO add charges
-		else:
-			output += "| high" + str(index) + "name=open\n"
+		output += item_to_template(item, "high", index)
 		index += 1
 	
 	index = 1
 	for item in input_fit.medium_slots:
-		if item.is_item:
-			output += "| mid" + str(index) + "name=" + item.item_name + "\n"
-			output += "| mid" + str(index) + "typeID=" + str(item.item_id) + "\n"
-		else:
-			output += "| mid" + str(index) + "name=open\n"
+		output += item_to_template(item, "mid", index)
 		index += 1
 	
 	index = 1
 	for item in input_fit.low_slots:
-		if item.is_item:
-			output += "| low" + str(index) + "name=" + item.item_name + "\n"
-			output += "| low" + str(index) + "typeID=" + str(item.item_id) + "\n"
-		else:
-			output += "| low" + str(index) + "name=open\n"
+		output += item_to_template(item, "low", index)
 		index += 1
 	
 	index = 1
 	for item in input_fit.rig_slots:
-		if item.is_item:
-			output += "| rig" + str(index) + "name=" + item.item_name + "\n"
-			output += "| rig" + str(index) + "typeID=" + str(item.item_id) + "\n"
-		else:
-			output += "| rig" + str(index) + "name=open\n"
+		output += item_to_template(item, "rig", index)
 		index += 1
 	
 	index = 1
 	for item in input_fit.subsystem_slots:
-		if item.is_item:
-			output += "| subsystem" + str(index) + "name=" + item.item_name + "\n"
-			output += "| subsystem" + str(index) + "typeID=" + str(item.item_id) + "\n"
-		else:
-			output += "| subsystem" + str(index) + "name=open\n"
+		output += item_to_template(item, "subsystem", index)
 		index += 1
 	
 	index = 1
 	for item in input_fit.drone_slots:
-		if item.is_item:
-			output += "| drone" + str(index) + "name=" + item.item_name + " x" + str(item.charge_count) + "\n"
-			output += "| drone" + str(index) + "typeID=" + str(item.item_id) + "\n"
-		else:
-			output += "| drone" + str(index) + "name=open\n"
+		output += item_to_template(item, "drone", index)
 		index += 1
 	
 	index = 1
 	for item in input_fit.cargo_slots:
-		if item.is_item:
-			output += "| charge" + str(index) + "name=" + item.item_name + " x" + str(item.charge_count) + "\n"
-			output += "| charge" + str(index) + "typeID=" + str(item.item_id) + "\n"
-		else:
-			output += "| charge" + str(index) + "name=open\n"
+		output += item_to_template(item, "charge", index)
 		index += 1
 	
 	
@@ -158,7 +149,9 @@ func fit_to_template( input_fit : ship_fit):
 		output += "| eft fit = " + convert_to_wiki( eft_node )
 	output += "}}"
 	
-	log_message( errors )
+	var errors: String = check_for_errors( input_fit )
+	if errors.length() != 0:
+		log_message( "There were some errors:\n" + errors )
 	return output
 
 

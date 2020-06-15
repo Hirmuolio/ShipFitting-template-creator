@@ -21,9 +21,8 @@ var item_slot : int
 
 func get_stats():
 	item_id = yield( DataHandler.get_item_id( item_name ), "completed" )
-	if item_id == 0:
+	if item_id == 26902:
 		# invalid item
-		item_name = "INVALID ITEM: " + item_name
 		item_slot = slot.item
 		return
 	var stats : Dictionary = yield( DataHandler.get_item_stats( item_id ), "completed" )
