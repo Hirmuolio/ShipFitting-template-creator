@@ -20,16 +20,13 @@ var item_id : int
 var item_slot : int
 
 func get_stats():
-	print( "Getting item stats: ", item_name)
 	item_id = yield( DataHandler.get_item_id( item_name ), "completed" )
 	var stats : Dictionary = yield( DataHandler.get_item_stats( item_id ), "completed" )
 	
 	item_slot = get_slot( stats )
-	print( item_name, "done")
 
 
 func get_slot( stats : Dictionary) -> int:
-	print( "Getting item slot")
 	#enum { high, medium, low, rig, subsystem, drone, item }
 	
 	var dogma_effects : Array = []
@@ -71,3 +68,8 @@ func add_charge( charge_name : String ):
 	item.item_name = charge_name
 	loaded_charge.charge_count = 1
 	yield( item.get_stats(), "completed" )
+
+func clear():
+	if loaded_charge != null:
+		loaded_charge.queue_free()
+	queue_free()

@@ -48,3 +48,6 @@ func remove_spaces( string: String ) -> String:
 	while string.ends_with( " " ):
 		string = string.trim_suffix( " " )
 	return string
+
+func wait_frame():
+	yield(get_tree(),"idle_frame")

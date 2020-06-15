@@ -45,7 +45,6 @@ func log_message(new_line: String):
 	log_node.add_message(new_line)
 
 
-
 func convert_to_wiki( RichTextLabel_node: Node ) -> String:
 	# Adds <br> to make the lines display right on wiki
 	var output : String = ""
@@ -168,6 +167,8 @@ func parse_input():
 	var wiki_template = fit_to_template( input_fit )
 	output_node.set_contents( wiki_template )
 	log_message( 'Template is ready.' )
+	input_fit.clear()
+	#yield(get_tree(),"idle_frame")
 
 
 func _on_parse_pressed():

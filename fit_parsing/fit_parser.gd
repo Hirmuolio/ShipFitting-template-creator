@@ -60,7 +60,6 @@ func parse_fit( eft_fit : String, include_loaded : bool )-> ship_fit:
 		emit_signal( "send_message", 'Error: No "[name, hull]" on first line.' )
 	
 	var new_fit : ship_fit = load( "res://classes/ship_fit.gd" ).new()
-	var module_class : Resource = load( "res://classes/module.gd" )
 	
 	# First line is [Hull, Name]
 	new_fit.hull = fit_lines[0].split( "," )[0].lstrip ( "[" )

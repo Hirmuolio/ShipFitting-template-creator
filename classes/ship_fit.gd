@@ -41,16 +41,17 @@ func add_module( module_name : String, loaded_charge : String = "" ):
 
 
 func add_cargo( item_name : String, item_count : int  = 1 ):
+	
+	for item in cargo_slots:
+		if item.item_name == item_name:
+			item.charge_count += 1
+			yield( Utilities.wait_frame(), "completed")
+			return
 	var module : fit_item = module_class.new()
 	module.item_name = item_name
 	module.charge_count = item_count
 	
 	yield( module.get_stats(), "completed" )
-	
-	for item in cargo_slots:
-		if item.item_name == item_name:
-			item.charge_count += 1
-			return
 	
 	cargo_slots.append( module )
 	pass
@@ -103,3 +104,8 @@ func print_fit():
 	print( "Cargo:" )
 	for item in cargo_slots:
 		print( item.item_name )
+
+func clear():
+	for item in all_slots_get():
+		item.clear()
+	queue_free()
